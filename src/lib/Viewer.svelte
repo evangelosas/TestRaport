@@ -15,7 +15,7 @@
 
   init();
   render();
-
+  
   function init() {
     scene = new Scene();
     scene.background = new Color(0xf1f1f1);
@@ -44,13 +44,6 @@
       }
     );
 
-    function playAnimations(model, animations) {
-      mixer = new AnimationMixer(model);
-      const clip = animations[0];
-      const action = mixer.clipAction(clip);
-      action.play();
-    }
-
     renderer = new WebGLRenderer({ antialias: true });
     renderer.setSize(innerWidth, innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -62,4 +55,11 @@
     requestAnimationFrame(render);
     renderer.render(scene, camera);
   }
+
+  function playAnimations(model, animations) {
+      mixer = new AnimationMixer(model);
+      const clip = animations[0];
+      const action = mixer.clipAction(clip);
+      action.play();
+    }
 </script>

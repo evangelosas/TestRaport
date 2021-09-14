@@ -1,5 +1,6 @@
 <script lang="ts">
   import logo from './assets/svelte.png'
+import AnimationForGui from './lib/AnimationForGui.svelte';
   import Counter from './lib/Counter.svelte'
   import Viewer from './lib/Viewer.svelte'
 </script>
@@ -11,7 +12,7 @@
   <Counter />  -->
 
   <Viewer />
-
+  <AnimationForGui />
   <!-- <p>
     Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte
     apps.
