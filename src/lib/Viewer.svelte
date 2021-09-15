@@ -94,16 +94,22 @@
     }
   }
 
-  function playAnimation(index) {
+  function processUpdateAnimationEvent(event) {
+    playAnimation(event.detail.index, event.detail.isPlaying);
+  }
+
+  function playAnimation(index, playAnimation = true) {
     if (!action) {
       action = mixer.clipAction(animations[index]);
+    } 
+    if (playAnimation) {
+      console.log("Start animation " + animations[index].name);
+      action.play();
     } else {
       console.log("Stop animation " + animations[index].name);
       action.stop();
     }
-    console.log("Start animation " + animations[index].name);
-    action.play();
   }
 </script>
 
-<AnimationForGui />
+<AnimationForGui on:updateAnimation={processUpdateAnimationEvent}/>

@@ -1,5 +1,9 @@
 <script>
   import { animationsList } from './AnimationStore.js';
+  import { createEventDispatcher } from 'svelte';
+  
+  const dispatch = createEventDispatcher();
+  
   let selected = 0;
 
   console.log(animationsList);
@@ -7,6 +11,9 @@
   let modelIsLoaded = isModelLoaded();
 
   function toggle() {
+    dispatch('updateAnimation', {
+			index: selected
+		});
     isPlaying = !isPlaying;
   }
 
