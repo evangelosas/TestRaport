@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AnimationForGui from './AnimationForGui.svelte';
+  import AnimationForGui from "./AnimationForGui.svelte";
   import {
     Scene,
     PerspectiveCamera,
@@ -10,12 +10,14 @@
     Clock,
   } from "three";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-  export let file : String;
+  import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
+  export let file: String;
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
   let mappedAnimations = [];
 
+  console.log(OrbitControls);
   init();
   render();
 
@@ -26,9 +28,23 @@
     camera = new PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 100);
     camera.position.z = 0.5;
 
-    const light = new DirectionalLight(0xffffff, 1);
-    light.position.set(0, 0, 1);
-    scene.add(light);
+    const frontLight = new DirectionalLight(0xffffff, 1);
+    frontLight.position.set(0, 0, 1);
+    scene.add(frontLight);
+
+    const backLight = new DirectionalLight(0x888888, 1);
+    backLight.position.set(0, 0, -1);
+    scene.add(backLight);
+
+    const leftlight = new DirectionalLight(0x330000, 1);
+    leftlight.position.set(-2, 0, 0);
+    leftlight.rotation.set(0, 270, 0);
+    scene.add(leftlight);
+
+    const rightLight = new DirectionalLight(0x003300, 1);
+    rightLight.position.set(2, 0, 0);
+    rightLight.rotation.set(0, 90, 0);
+    scene.add(rightLight);
 
     const loader = new GLTFLoader();
     loader.load(
@@ -37,7 +53,7 @@
         console.log("Model was loaded successfully.");
         console.log(gltf);
         scene.add(gltf.scene);
-        animations = gltf.animations
+        animations = gltf.animations;
         mapAnimationNames(animations);
         mixer = new AnimationMixer(gltf.scene);
         playAnimation(0);
@@ -53,6 +69,11 @@
     renderer = new WebGLRenderer({ antialias: true });
     renderer.setSize(innerWidth, innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls( camera, renderer.domElement );
+		controls.enablePan = false;
+    controls.enableZoom = false;
+		controls.update();
   }
 
   function render() {
@@ -63,8 +84,15 @@
   }
 
   function mapAnimationNames(unmappedAnimations) {
-    for(let animationIndex = 0; animationIndex < unmappedAnimations.length; ++animationIndex) {
-      mappedAnimations.push( { id: animationIndex + 1, name: unmappedAnimations[animationIndex].name });
+    for (
+      let animationIndex = 0;
+      animationIndex < unmappedAnimations.length;
+      ++animationIndex
+    ) {
+      mappedAnimations.push({
+        id: animationIndex + 1,
+        name: unmappedAnimations[animationIndex].name,
+      });
     }
   }
 
@@ -72,12 +100,12 @@
     if (!action) {
       action = mixer.clipAction(animations[index]);
     } else {
-      console.log("Stop animation "+animations[index].name);
+      console.log("Stop animation " + animations[index].name);
       action.stop();
     }
-    console.log("Start animation "+animations[index].name);
-    action.play();    
+    console.log("Start animation " + animations[index].name);
+    action.play();
   }
 </script>
 
-<AnimationForGui animations={mappedAnimations}/>
+<AnimationForGui animations={mappedAnimations} />
