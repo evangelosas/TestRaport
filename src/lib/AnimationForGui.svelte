@@ -13,19 +13,27 @@
   let isPlaying = true;
 
   function handleSubmit() {
-    alert(
-      `answered question ${selected.id} (${selected.text}) with `
-    );
+    alert(`answered question ${selected.id} (${selected.text}) with `);
   }
 </script>
 
-<select value={selected}>
-  {#each animations as animation}
-    <option value={animation}>
-      {animation.text}
-    </option>
-  {/each}
-</select>
+<div>
+  <select value={selected}>
+    {#each animations as animation}
+      <option value={animation}>
+        {animation.text}
+      </option>
+    {/each}
+  </select>
 
-<button disabled={!isPlaying} type="submit"> Play </button>
-<!-- Put an if statement for name -->
+  <button disabled={!isPlaying} type="submit"> Play </button>
+  <!-- Put an if statement for name -->
+</div>
+<style>
+div {
+  position: absolute;
+  top: 80px;
+  left: 80px;
+}
+
+</style>
