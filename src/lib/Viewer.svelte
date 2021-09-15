@@ -1,4 +1,5 @@
 <script lang="ts">
+  import AnimationForGui from './AnimationForGui.svelte';
   import {
     Scene,
     PerspectiveCamera,
@@ -9,10 +10,11 @@
     Clock,
   } from "three";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-
+  export let file : String;
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
+  let mappedAnimations = [];
 
   init();
   render();
@@ -30,12 +32,13 @@
 
     const loader = new GLTFLoader();
     loader.load(
-      "./Megan.glb",
+      file,
       function (gltf) {
         console.log("Model was loaded successfully.");
         console.log(gltf);
         scene.add(gltf.scene);
-        animations = gltf.animations;
+        animations = gltf.animations
+        mapAnimationNames(animations);
         mixer = new AnimationMixer(gltf.scene);
         playAnimation(0);
       },
@@ -59,6 +62,12 @@
     renderer.render(scene, camera);
   }
 
+  function mapAnimationNames(unmappedAnimations) {
+    for(let animationIndex = 0; animationIndex < unmappedAnimations.length; ++animationIndex) {
+      mappedAnimations.push( { id: animationIndex + 1, name: unmappedAnimations[animationIndex].name });
+    }
+  }
+
   function playAnimation(index) {
     if (!action) {
       action = mixer.clipAction(animations[index]);
@@ -70,3 +79,5 @@
     action.play();    
   }
 </script>
+
+<AnimationForGui animations={mappedAnimations}/>

@@ -1,41 +1,34 @@
 <script>
-  let animations = [];
-
-  // let animations = [
-  //   { id: 1, text: `Where did you go to school?` },
-  //   { id: 2, text: `What is your mother's name?` },
-  //   {
-  //     id: 3,
-  //     text: `What is another personal fact that an attacker could easily find with Google?`,
-  //   },
-  // ];
-
-  let selected;
+  export let animations;
+  let selected = 0;
 
   let isPlaying = true;
-  let modelIsLoaded = animations.length > 0;
+  let modelIsLoaded = isModelLoaded();
 
   function toggle() {
     isPlaying = !isPlaying;
   }
+
+  function isModelLoaded() {
+    return animations.length > 0;
+  }
+
 </script>
 
 <div>
-  {#if modelIsLoaded}
-    <select value={selected}>
+    <select disabled={!modelIsLoaded} bind:value={selected}>
       {#each animations as animation}
         <option value={animation}>
-          {animation.text}
+          {animation.name}
         </option>
       {/each}
     </select>
 
     {#if isPlaying}
-      <button on:click={toggle}> Pause </button>
+      <button disabled={!modelIsLoaded} on:click={toggle}> Pause </button>
     {:else}
-      <button on:click={toggle}> Play </button>
+      <button disabled={!modelIsLoaded} on:click={toggle}> Play </button>
     {/if}
-  {/if}
 </div>
 
 <style>
