@@ -20,12 +20,13 @@
 
   function isModelLoaded() {
     console.log($animationsList);
-    return true; //$animationsList.length > 0;
+    return $animationsList.length > 0;
   }
 </script>
 
 <div>
-  <select disabled={!modelIsLoaded} bind:value={selected}>
+  <!-- <select disabled={!modelIsLoaded} bind:value={selected}> -->
+  <select bind:value={selected}>
     {#each $animationsList as animation}
       <option value={animation}>
         {animation.name}
@@ -34,9 +35,9 @@
   </select>
 
   {#if isPlaying}
-    <button disabled={!modelIsLoaded} on:click={toggle}> Pause </button>
+    <button on:click={toggle}> Stop </button>
   {:else}
-    <button disabled={!modelIsLoaded} on:click={toggle}> Play </button>
+    <button on:click={toggle}> Play </button>
   {/if}
 </div>
 

@@ -16,6 +16,7 @@
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
+  let activeAnimationIndex = -1;
 
   init();
   render();
@@ -100,8 +101,9 @@
   }
 
   function playAnimation(index, playAnimation = true) {
-    if (!action) {
+    if (!action || activeAnimationIndex != index) {
       action = mixer.clipAction(animations[index]);
+      action.stop();
     }
     if (!playAnimation) {
       console.log("Start animation " + animations[index].name);
