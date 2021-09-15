@@ -95,14 +95,15 @@
   }
 
   function processUpdateAnimationEvent(event) {
-    playAnimation(event.detail.index, event.detail.isPlaying);
+    console.log(event);
+    playAnimation(event.detail.index - 1, event.detail.status);
   }
 
   function playAnimation(index, playAnimation = true) {
     if (!action) {
       action = mixer.clipAction(animations[index]);
-    } 
-    if (playAnimation) {
+    }
+    if (!playAnimation) {
       console.log("Start animation " + animations[index].name);
       action.play();
     } else {
