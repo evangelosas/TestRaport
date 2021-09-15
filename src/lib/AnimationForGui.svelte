@@ -12,8 +12,8 @@
 
   let isPlaying = true;
 
-  function handleSubmit() {
-    alert(`answered question ${selected.id} (${selected.text}) with `);
+  function toggle() {
+    isPlaying = !isPlaying;
   }
 </script>
 
@@ -26,14 +26,17 @@
     {/each}
   </select>
 
-  <button disabled={!isPlaying} type="submit"> Play </button>
-  <!-- Put an if statement for name -->
+  {#if isPlaying}
+    <button on:click={toggle}> Pause </button>
+  {:else}
+    <button on:click={toggle}> Play </button>
+  {/if}
 </div>
-<style>
-div {
-  position: absolute;
-  top: 80px;
-  left: 80px;
-}
 
+<style>
+  div {
+    position: absolute;
+    top: 80px;
+    left: 80px;
+  }
 </style>
