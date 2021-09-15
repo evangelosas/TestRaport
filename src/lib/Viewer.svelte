@@ -11,11 +11,12 @@
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
   let clock = new Clock();
-  let renderer, scene, camera, mixer;
+  let renderer, scene, camera, mixer, action;
+  let animations;
 
   init();
   render();
-  
+
   function init() {
     scene = new Scene();
     scene.background = new Color(0xf1f1f1);
@@ -34,7 +35,9 @@
         console.log("Model was loaded successfully.");
         console.log(gltf);
         scene.add(gltf.scene);
-        playAnimations(gltf.scene, gltf.animations);
+        animations = gltf.animations;
+        mixer = new AnimationMixer(gltf.scene);
+        playAnimation(0);
       },
       function (workload) {
         console.log((workload.loaded / workload.total) * 100 + "% loaded");
@@ -56,10 +59,14 @@
     renderer.render(scene, camera);
   }
 
-  function playAnimations(model, animations) {
-      mixer = new AnimationMixer(model);
-      const clip = animations[0];
-      const action = mixer.clipAction(clip);
-      action.play();
+  function playAnimation(index) {
+    if (!action) {
+      action = mixer.clipAction(animations[index]);
+    } else {
+      console.log("Stop animation "+animations[index].name);
+      action.stop();
     }
+    console.log("Start animation "+animations[index].name);
+    action.play();    
+  }
 </script>
