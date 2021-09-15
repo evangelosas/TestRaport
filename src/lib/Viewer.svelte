@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { animationsList } from './AnimationStore.js';
   import AnimationForGui from "./AnimationForGui.svelte";
   import {
     Scene,
@@ -15,9 +16,7 @@
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
-  let mappedAnimations = [];
 
-  console.log(OrbitControls);
   init();
   render();
 
@@ -51,7 +50,6 @@
       file,
       function (gltf) {
         console.log("Model was loaded successfully.");
-        console.log(gltf);
         scene.add(gltf.scene);
         animations = gltf.animations;
         mapAnimationNames(animations);
@@ -89,10 +87,10 @@
       animationIndex < unmappedAnimations.length;
       ++animationIndex
     ) {
-      mappedAnimations.push({
+      $animationsList = [...$animationsList, {
         id: animationIndex + 1,
-        name: unmappedAnimations[animationIndex].name,
-      });
+        name: unmappedAnimations[animationIndex].name
+      }]
     }
   }
 
@@ -108,4 +106,4 @@
   }
 </script>
 
-<AnimationForGui animations={mappedAnimations} />
+<AnimationForGui />

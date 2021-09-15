@@ -1,7 +1,8 @@
 <script>
-  export let animations;
+  import { animationsList } from './AnimationStore.js';
   let selected = 0;
 
+  console.log(animationsList);
   let isPlaying = true;
   let modelIsLoaded = isModelLoaded();
 
@@ -10,14 +11,15 @@
   }
 
   function isModelLoaded() {
-    return animations.length > 0;
+    console.log( $animationsList);
+    return $animationsList.length > 0;
   }
 
 </script>
 
 <div>
     <select disabled={!modelIsLoaded} bind:value={selected}>
-      {#each animations as animation}
+      {#each $animationsList as animation}
         <option value={animation}>
           {animation.name}
         </option>
