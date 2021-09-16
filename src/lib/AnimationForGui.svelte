@@ -7,8 +7,7 @@
   let selected;
 
   console.log(animationsList);
-  let isPlaying = true;
-  let modelIsLoaded = isModelLoaded();
+  let isPlaying = false;
 
   function toggle() {
     dispatch("updateAnimation", {
@@ -17,15 +16,9 @@
     });
     isPlaying = !isPlaying;
   }
-
-  function isModelLoaded() {
-    console.log($animationsList);
-    return $animationsList.length > 0;
-  }
 </script>
 
 <div>
-  <!-- <select disabled={!modelIsLoaded} bind:value={selected}> -->
   <select bind:value={selected}>
     {#each $animationsList as animation}
       <option value={animation}>
