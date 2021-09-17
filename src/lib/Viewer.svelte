@@ -1,6 +1,7 @@
 <script lang="ts">
   import { animationsList } from './AnimationStore.js';
-  import AnimationForGui from "./AnimationForGui.svelte";
+  import GuiForAnimation from "./GuiForAnimation.svelte";
+  import EventRecorder from "./EventRecorder.svelte";
   import {
     Scene,
     PerspectiveCamera,
@@ -115,4 +116,5 @@
   }
 </script>
 
-<AnimationForGui on:updateAnimation={processUpdateAnimationEvent}/>
+<GuiForAnimation on:updateAnimation={processUpdateAnimationEvent}/>
+<EventRecorder on:updateAnimation={processUpdateAnimationEvent}/>
