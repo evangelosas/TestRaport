@@ -1,7 +1,5 @@
 <script lang="ts">
-  import Viewer from './lib/Viewer.svelte'
+  import Viewer from "./lib/Viewer.svelte";
 </script>
 
-<Viewer file="./Megan.glb"/>
-
-
+<Viewer file="./Megan.glb" />

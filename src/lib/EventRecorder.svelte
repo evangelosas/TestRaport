@@ -1,8 +1,12 @@
 <script>
-  import * as socketIO from "socket.io";
+const socket = new WebSocket('ws://localhost:8080');
 
-  var socket = io();
-  socket.on("animation", function (msg) {
-    console.log(msg);
-  });
+// socket.addEventListener('open', function (event) {
+//     socket.send('Hello Server!');
+// });
+
+socket.addEventListener('message', function (event) {
+    console.log('Message from server: '+ event.data +" on " + new Date().toString() );
+});
+
 </script>
