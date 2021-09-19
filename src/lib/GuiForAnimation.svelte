@@ -6,7 +6,6 @@
 
   let selected;
 
-  console.log(animationsList);
   let startPlaying = true;
 
   function toggle() {

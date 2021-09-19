@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { animationsList } from "./AnimationStore.js";
+  import { animationsList, numberOfAnimations } from "./AnimationStore.js";
   import GuiForAnimation from "./GuiForAnimation.svelte";
   import EventRecorder from "./EventRecorder.svelte";
   import {
@@ -100,10 +100,10 @@
         },
       ];
     }
+    numberOfAnimations.set(unmappedAnimations.length);
   }
 
   function processUpdateAnimationEvent(event) {
-    console.log(event);
     playAnimation(event.detail.index - 1, event.detail.status);
   }
 
