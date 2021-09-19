@@ -7,14 +7,14 @@
   let selected;
 
   console.log(animationsList);
-  let isPlaying = false;
+  let startPlaying = true;
 
   function toggle() {
     dispatch("updateAnimation", {
       index: selected.id,
-      status: isPlaying,
+      status: startPlaying,
     });
-    isPlaying = !isPlaying;
+    startPlaying = !startPlaying;
   }
 </script>
 
@@ -27,10 +27,10 @@
     {/each}
   </select>
 
-  {#if isPlaying}
-    <button on:click={toggle}> Stop </button>
-  {:else}
+  {#if startPlaying}
     <button on:click={toggle}> Play </button>
+  {:else}
+    <button on:click={toggle}> Stop </button>
   {/if}
 </div>
 

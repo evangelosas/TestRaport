@@ -17,8 +17,10 @@
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
-  let activeAnimationIndex = -1;
-  let animationNamePlaying = "";
+  let activeAnimation = {
+    index : -1,
+    name: ""
+  };
 
   init();
   render();
@@ -102,29 +104,30 @@
     playAnimation(event.detail.index - 1, event.detail.status);
   }
 
-  function playAnimation(index, playAnimation = true) {
-    if (!action || activeAnimationIndex != index) {
+  function playAnimation(index, startPlaying = false) {
+    if (!action ||  activeAnimation.index != index) {
       action = mixer.clipAction(animations[index]);
       action.stop();
     }
-    if (!playAnimation) {
+    if (startPlaying) {
       console.log("Start animation " + animations[index].name);
       action.play();
-      animationNamePlaying = animations[index].name;
+      activeAnimation.name = animations[index].name;
+      activeAnimation.index = index;
     } else {
       console.log("Stop animation " + animations[index].name);
       action.stop();
-      animationNamePlaying = "";
+      activeAnimation.name = "";
     }
   }
 </script>
 
 <GuiForAnimation on:updateAnimation={processUpdateAnimationEvent}/>
-<EventRecorder url="ws://localhost:8080" on:updateAnimation={processUpdateAnimationEvent}/>
+<!-- <EventRecorder url="ws://localhost:8080" on:updateAnimation={processUpdateAnimationEvent}/> -->
 
-{#if animationNamePlaying != ""}
+{#if activeAnimation.name != ""}
 <h2>
-  Now playing {animationNamePlaying}
+  Now playing {activeAnimation.name}
 </h2>
 {/if}
 

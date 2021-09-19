@@ -3,14 +3,14 @@ import { createEventDispatcher } from "svelte";
 const dispatch = createEventDispatcher();
 export let url;
 const socket = new WebSocket(url);
-const IS_PLAYING = false;
+const START_PLAYING = false;
 
 socket.addEventListener('message', function (event) {
   let value = event.data;
     console.log('Message from server: '+ value +" on " + new Date().toString() );
     dispatch("updateAnimation", {
       index: convertValueToIndex(value),
-      status: IS_PLAYING,
+      status: START_PLAYING,
     });
 });
 
