@@ -1,12 +1,21 @@
 <script>
-const socket = new WebSocket('ws://localhost:8080');
-
-// socket.addEventListener('open', function (event) {
-//     socket.send('Hello Server!');
-// });
+import { createEventDispatcher } from "svelte";
+const dispatch = createEventDispatcher();
+export let url;
+const socket = new WebSocket(url);
+const IS_PLAYING = false;
 
 socket.addEventListener('message', function (event) {
-    console.log('Message from server: '+ event.data +" on " + new Date().toString() );
+  let value = event.data;
+    console.log('Message from server: '+ value +" on " + new Date().toString() );
+    dispatch("updateAnimation", {
+      index: convertValueToIndex(value),
+      status: IS_PLAYING,
+    });
 });
+
+function convertValueToIndex(value) {
+  return Math.floor(value * 3) + 1;
+}
 
 </script>

@@ -13,11 +13,12 @@
   } from "three";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
   import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
-  export let file: String;
+  export let file;
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
   let activeAnimationIndex = -1;
+  let animationNamePlaying = "";
 
   init();
   render();
@@ -109,12 +110,29 @@
     if (!playAnimation) {
       console.log("Start animation " + animations[index].name);
       action.play();
+      animationNamePlaying = animations[index].name;
     } else {
       console.log("Stop animation " + animations[index].name);
       action.stop();
+      animationNamePlaying = "";
     }
   }
 </script>
 
 <GuiForAnimation on:updateAnimation={processUpdateAnimationEvent}/>
-<EventRecorder on:updateAnimation={processUpdateAnimationEvent}/>
+<EventRecorder url="ws://localhost:8080" on:updateAnimation={processUpdateAnimationEvent}/>
+
+{#if animationNamePlaying != ""}
+<h2>
+  Now playing {animationNamePlaying}
+</h2>
+{/if}
+
+<style>
+  h2 {
+    position: absolute;
+    bottom: 80px;
+    left: 80px;
+    color: red;
+  }
+</style>
