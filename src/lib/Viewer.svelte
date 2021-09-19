@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { animationsList } from './AnimationStore.js';
+  import { animationsList } from "./AnimationStore.js";
   import GuiForAnimation from "./GuiForAnimation.svelte";
   import EventRecorder from "./EventRecorder.svelte";
   import {
@@ -12,14 +12,14 @@
     Clock,
   } from "three";
   import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-  import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
   export let file;
   let clock = new Clock();
   let renderer, scene, camera, mixer, action;
   let animations;
   let activeAnimation = {
-    index : -1,
-    name: ""
+    index: -1,
+    name: "",
   };
 
   init();
@@ -73,10 +73,10 @@
     renderer.setSize(innerWidth, innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    const controls = new OrbitControls( camera, renderer.domElement );
-		controls.enablePan = false;
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enablePan = false;
     controls.enableZoom = false;
-		controls.update();
+    controls.update();
   }
 
   function render() {
@@ -92,10 +92,13 @@
       animationIndex < unmappedAnimations.length;
       ++animationIndex
     ) {
-      $animationsList = [...$animationsList, {
-        id: animationIndex + 1,
-        name: unmappedAnimations[animationIndex].name
-      }]
+      $animationsList = [
+        ...$animationsList,
+        {
+          id: animationIndex + 1,
+          name: unmappedAnimations[animationIndex].name,
+        },
+      ];
     }
   }
 
@@ -105,9 +108,11 @@
   }
 
   function playAnimation(index, startPlaying = false) {
-    if (!action ||  activeAnimation.index != index) {
+    if (!action) {
       action = mixer.clipAction(animations[index]);
-      action.stop();
+    }
+    if (activeAnimation.index != index) {
+      mixer.stopAllAction();
     }
     if (startPlaying) {
       console.log("Start animation " + animations[index].name);
@@ -118,17 +123,21 @@
       console.log("Stop animation " + animations[index].name);
       action.stop();
       activeAnimation.name = "";
+      activeAnimation.index = index;
     }
   }
 </script>
 
-<GuiForAnimation on:updateAnimation={processUpdateAnimationEvent}/>
-<!-- <EventRecorder url="ws://localhost:8080" on:updateAnimation={processUpdateAnimationEvent}/> -->
+<GuiForAnimation on:updateAnimation={processUpdateAnimationEvent} />
+<EventRecorder
+  url="ws://localhost:8080"
+  on:updateAnimation={processUpdateAnimationEvent}
+/>
 
 {#if activeAnimation.name != ""}
-<h2>
-  Now playing {activeAnimation.name}
-</h2>
+  <h2>
+    Now playing {activeAnimation.name}
+  </h2>
 {/if}
 
 <style>

@@ -3,7 +3,7 @@ import { createEventDispatcher } from "svelte";
 const dispatch = createEventDispatcher();
 export let url;
 const socket = new WebSocket(url);
-const START_PLAYING = false;
+const START_PLAYING = true;
 
 socket.addEventListener('message', function (event) {
   let value = event.data;
