@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
   import { animationsList, numberOfAnimations } from "./AnimationStore.js";
   import GuiForAnimation from "./GuiForAnimation.svelte";
   import EventRecorder from "./EventRecorder.svelte";

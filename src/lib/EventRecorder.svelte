@@ -1,11 +1,11 @@
-<script>
+<script  lang="ts">
 import { createEventDispatcher } from "svelte";
 import { numberOfAnimations } from "./AnimationStore.js";
 
 const dispatch = createEventDispatcher();
-export let url;
+export let url : string;
 const socket = new WebSocket(url);
-const START_PLAYING = true;
+const START_PLAYING : boolean = true;
 
 socket.addEventListener('message', function (event) {
   let value = event.data;
@@ -18,7 +18,7 @@ socket.addEventListener('message', function (event) {
   }
 });
 
-function convertValueToIndex(value) {
+function convertValueToIndex(value : number) : number {
   return Math.floor(value * $numberOfAnimations) + 1;
 }
 
